@@ -4,25 +4,30 @@ import matplotlib.pyplot as plt
 
 
 def get_data():
-    filepath = 'wig20_d.csv'
-    total_rows = sum(1 for line in open(filepath)) - 1 # get the total number of rows in the file (excluding header)
+    filepath = 'aapl_us_d.csv'
+    with open(filepath, 'r') as f:
+        column_names = f.readline().strip().split(',')
 
-    column_names = ['date', 'open', 'high', 'low', 'close', 'volume']
+    raw_dataset = pd.read_csv(filepath, names=column_names, na_values='?', comment='\t',
+                              sep=',', skipinitialspace=True, header=1)
 
-    raw_dataset = pd.read_csv(filepath, names=column_names, skiprows=total_rows-1000, nrows=1000)
+    # remove entries with missing values
     dataset = raw_dataset.dropna()
-
+    dataset = raw_dataset.tail(100)
+    # from sklearn import preprocessing
+    # normalized_features = preprocessing.StandardScaler().fit_transform(dataset)
+    # dataset = pd.DataFrame(data=normalized_features, columns=column_names)
     return dataset
 
 def inspect_data(dataset):
     print('Dataset shape:')
     print(dataset.shape)
 
-    print('Tail')
+    print('Tail:')
     print(dataset.tail())
 
-    print('Statistics')
+    print('Statistics:')
     print(dataset.describe().transpose())
 
-    sns.pairplot(dataset[['date', 'open', 'high', 'low', 'close', 'volume']], diag_kind='kde')
+    sns.pairplot(dataset[['Date','Open','High','Low','Close','Volume']], diag_kind='kde')
     plt.show()
