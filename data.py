@@ -11,12 +11,8 @@ def get_data():
     raw_dataset = pd.read_csv(filepath, names=column_names, na_values='?', comment='\t',
                               sep=',', skipinitialspace=True, header=1)
 
-    # remove entries with missing values
     dataset = raw_dataset.dropna()
-    dataset = raw_dataset.tail(100)
-    # from sklearn import preprocessing
-    # normalized_features = preprocessing.StandardScaler().fit_transform(dataset)
-    # dataset = pd.DataFrame(data=normalized_features, columns=column_names)
+    dataset = raw_dataset.tail(1000)
     return dataset
 
 def inspect_data(dataset):
