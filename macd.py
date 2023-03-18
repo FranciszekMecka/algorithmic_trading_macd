@@ -6,17 +6,19 @@ def alpha(N: int) -> float:
     return 2/(N+1)
 
 def get_ema(data: ndarray, N: int) -> float:
-    data_close = data
-    data_cols = data_close[:N+1]
-    data_cols = data_cols[::-1] # inverting the order to get the first date at the beg
+    #data_close = data
+    # data_cols = data_close[:N+1]
+    # data_cols = data_cols[::-1] # inverting the order to get the first date at the beg
+    data_cols = data[::-1] # inverting the order to get the first date at the beg
+    data_cols = data_cols[:N+1]
     pow = np.arange(N+1)
     alphaOne = np.power(1 - alpha(N), pow)
     numerator = (alphaOne * data_cols).sum()
     denominator = alphaOne.sum()
     return numerator/denominator
 
-def get_macd(data: ndarray, i: int, j: int) -> float:
-    return get_ema(data, i) - get_ema(data, j)
+def get_macd(data: ndarray, j: int, i: int) -> float:
+    return get_ema(data, j) - get_ema(data, i)
 
 def get_macd_columns(data: ndarray) -> ndarray:
     macd = []
@@ -27,10 +29,9 @@ def get_macd_columns(data: ndarray) -> ndarray:
     return macd
 
 def get_signal_columns(macd_cols: ndarray) -> ndarray:
-    #TODO
     signal = []
     for i in range(9, len(macd_cols)):
         temp_data = macd_cols[i-9:i+1]
-        x = get_macd(temp_data, 9, 0)
+        x = get_ema(temp_data, 9)
         signal.append(x)
     return signal
