@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy import ndarray
 
+macd_iter = (12, 26) # how far should you calc macd
+signal_iter = 9
+
 def alpha(N: int) -> float:
     return 2/(N+1)
 
@@ -19,16 +22,16 @@ def get_macd(data: ndarray, j: int, i: int) -> float:
 
 def get_macd_columns(data: ndarray) -> ndarray:
     macd = []
-    for i in range(27, len(data)):
-        temp_data = data[i-27:i]
-        x = get_macd(temp_data, 12, 26) # instructed values
+    for i in range(macd_iter[1] + 1, len(data)):
+        temp_data = data[i-(macd_iter[1] + 1):i]
+        x = get_macd(temp_data, macd_iter[0], macd_iter[1])
         macd.append(x)
     return macd
 
 def get_signal_columns(macd_cols: ndarray) -> ndarray:
     signal = []
-    for i in range(9, len(macd_cols)):
-        temp_data = macd_cols[i-9:i+1]
-        x = get_ema(temp_data, 9)
+    for i in range(signal_iter, len(macd_cols)):
+        temp_data = macd_cols[i-signal_iter:i+1]
+        x = get_ema(temp_data, signal_iter)
         signal.append(x)
     return signal
