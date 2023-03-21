@@ -24,15 +24,4 @@ plt.ticklabel_format(style='plain', axis='y', useOffset=False)
 bot = trade_bot()
 buy, sell = bot.get_intersects(close[36:], macd[9:], signal, dates[36:])
 
-for point in buy:
-    plt.plot(point[0], point[1], 'bx')
-
-
-for point in sell:
-    plt.plot(point[0], point[1], 'gx')
-
-
-print(buy)
-print(sell)
-
 plt.show()
