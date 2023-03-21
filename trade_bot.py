@@ -16,7 +16,7 @@ class trade_bot:
         return buy_intersects, sell_intersects
     
     def buy_and_sell(self, buy: list, sell: list):
-        if buy[0][0] > sell[0][0]: # the sell intersection is first
+        if buy[0][0] > sell[0][0]: # the sell intersection is first date wise
             sell = sell[1::]
         number_of_stocks: float = 0
         for i in range(len(sell)):

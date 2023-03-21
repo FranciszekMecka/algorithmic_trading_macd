@@ -6,9 +6,6 @@ def alpha(N: int) -> float:
     return 2/(N+1)
 
 def get_ema(data: ndarray, N: int) -> float:
-    #data_close = data
-    # data_cols = data_close[:N+1]
-    # data_cols = data_cols[::-1] # inverting the order to get the first date at the beg
     data_cols = data[::-1] # inverting the order to get the first date at the beg
     data_cols = data_cols[:N+1]
     pow = np.arange(N+1)
