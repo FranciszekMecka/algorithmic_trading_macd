@@ -6,11 +6,11 @@ class TradeBot:
     def __init__(self, funds: float = 1000) -> None:
         self.funds = funds
 
-    def get_intersects(self, stock_price: list, macd: list, signal: list, dates: list) -> list:
+    def get_intersects(self, stock_price: list, macd: list, signal: list, dates: list) -> tuple:
         buy_intersects = []
         sell_intersects = []
 
-        for i in range (len(dates)):
+        for i in range(len(dates)):
             if macd[i] > signal[i] and macd[i-1] < signal[i-1]:
                 x = self.date_val(dates[i], stock_price[i])
                 buy_intersects.append(x)
@@ -27,7 +27,6 @@ class TradeBot:
         for i in range(len(sell)):
             number_of_stocks = self.funds / buy[i].value
             self.funds -= number_of_stocks * buy[i].value
-
             self.funds += number_of_stocks * sell[i].value
 
         return self.funds

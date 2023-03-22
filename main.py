@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 from data import get_data
 from macd import get_macd_columns, get_signal_columns
@@ -16,7 +15,7 @@ plt.style.use('dark_background')
 plt.plot(dates, close, 'g-', label='price')
 plt.plot(dates[macd_iter[1] + signal_iter + 1:], signal, 'tab:orange', label='signal')
 plt.plot(dates[macd_iter[1] + 1:], macd, 'c-', label='macd')
-plt.xlabel('Date [y-m-d]')
+plt.xlabel('Date [yyyy-mm-dd]')
 plt.ylabel('Close value [$]')
 plt.xticks(range(0, len(dates), 100))
 plt.ticklabel_format(style='plain', axis='y', useOffset=False)
@@ -33,6 +32,8 @@ for point in sell:
 
 gain = bot.buy_and_sell(buy, sell)
 
-plt.plot([], [], ' ', label=(f"{gain:.2f}$"))
+plt.plot([], [], 'bx', label='Buy point') # for the label
+plt.plot([], [], 'rx', label='Sell point')
+plt.plot([], [], ' ', label=(f"gain: {gain:.2f}$"))
 plt.legend(loc='upper left')
 plt.show()

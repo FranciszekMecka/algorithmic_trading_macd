@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def get_data():
-    filepath = 'aapl_us_d.csv'
+    filepath = 'data/tsla_us_d.csv'
     with open(filepath, 'r') as f:
         column_names = f.readline().strip().split(',')
 
@@ -12,7 +12,7 @@ def get_data():
                               sep=',', skipinitialspace=True, header=1)
 
     dataset = raw_dataset.dropna()
-    dataset = raw_dataset.tail(1000)
+    dataset = raw_dataset.tail(1000) # amount of stock data
     return dataset
 
 def inspect_data(dataset):

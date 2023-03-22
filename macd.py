@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from numpy import ndarray
 
 macd_iter = (12, 26) # how far should you calc macd
