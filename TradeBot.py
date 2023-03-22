@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 class TradeBot:
-    date_val = namedtuple('Date_val', ('date', 'value'))
+    date_val = namedtuple('date_val', ('date', 'value'))
 
     def __init__(self, funds: float = 1000) -> None:
         self.funds = funds
