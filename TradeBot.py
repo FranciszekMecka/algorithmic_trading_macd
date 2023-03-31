@@ -5,6 +5,7 @@ class TradeBot:
 
     def __init__(self, funds: float = 1000) -> None:
         self.funds = funds
+        self.startingFunds = funds # this is used to calculate gain
 
     def get_intersects(self, stock_price: list, macd: list, signal: list, dates: list) -> tuple:
         buy_intersects = []
@@ -20,7 +21,7 @@ class TradeBot:
 
         return buy_intersects, sell_intersects
     
-    def buy_and_sell(self, buy: list, sell: list):
+    def buy_and_sell(self, buy: list, sell: list) -> float:
         if buy[0].date > sell[0].date: # the sell intersection is first date wise
             sell = sell[1::]
         number_of_stocks: float = 0
