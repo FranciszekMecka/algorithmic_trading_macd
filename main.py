@@ -25,15 +25,17 @@ buy, sell = bot.get_intersects(close[macd_iter[1] + signal_iter + 1:],
                                 macd[signal_iter:], signal, dates[macd_iter[1] + signal_iter + 1:])
 
 for point in buy:
-    plt.plot(point.date, point.value, 'bx')
+    plt.plot(point.date, point.value, 'b^')
+    plt.text(point.date, point.value, f"{point.date}\n{point.value:.2f}", ha='center', va='bottom', fontsize=8)
 
 for point in sell:
-    plt.plot(point.date, point.value, 'rx')
+    plt.plot(point.date, point.value, 'rv')
+    plt.text(point.date, point.value, f"{point.date}\n{point.value:.2f}", ha='center', va='top', fontsize=8)
 
 gain = bot.buy_and_sell(buy, sell)
 
-plt.plot([], [], 'bx', label='Buy point') # for the label
-plt.plot([], [], 'rx', label='Sell point')
+plt.plot([], [], 'b^', label='Buy point') # for the label
+plt.plot([], [], 'rv', label='Sell point')
 plt.plot([], [], ' ', label=(f"gain: {gain:.2f}$"))
 plt.legend(loc='upper left')
 plt.show()
