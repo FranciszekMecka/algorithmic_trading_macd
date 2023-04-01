@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def get_data():
-    filepath = 'data/tsla_us_d.csv'
+    filepath = 'data/aapl_us_d.csv'
     with open(filepath, 'r') as f:
         column_names = f.readline().strip().split(',')
 

@@ -1,4 +1,5 @@
 from collections import namedtuple
+from numpy import ndarray
 
 class TradeBot:
     date_val = namedtuple('date_val', ('date', 'value'))
@@ -31,3 +32,6 @@ class TradeBot:
             self.funds += number_of_stocks * sell[i].value
 
         return self.funds
+    
+    def react_to_rsi(self, rsi: ndarray):
+        pass
