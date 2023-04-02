@@ -1,9 +1,10 @@
 import numpy as np
 from numpy import ndarray
+from collections import namedtuple
 
 rsi_period: int = 14
 
-# this doesn't work fix this, run this and see
+rsi_date_val = namedtuple('rsi_date_val', ('rsi', 'date' ,'value'))
 
 def get_rs(data: ndarray, n: int = rsi_period) -> float:
     data = data[:n + 1]
@@ -17,14 +18,17 @@ def get_rs(data: ndarray, n: int = rsi_period) -> float:
             gains.append(x)
         elif x < 0:
             loses.append(abs(x))
-    return (sum(gains) / n) / (sum(loses) / n)
+    return (sum(gains) / len(gains)) / (sum(loses) / len(loses))
 
-def get_rsi(data: ndarray) -> ndarray:
+def get_rsi(data: ndarray, dates: ndarray) -> ndarray:
     rsi = []
-    for i in range(len(data) - rsi_period):
+    rdv = []
+    for i in range(rsi_period, len(data) - rsi_period):
         temp_data = data[i:]
         rs = get_rs(temp_data)
         x = 100. - 100./(1.+rs)
-        rsi.append(x)
 
-    return rsi
+        rsi.append(x)
+        rdv.append(rsi_date_val(x, dates[i], data[i]))
+
+    return rsi, rdv
