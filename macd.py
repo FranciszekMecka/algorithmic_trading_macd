@@ -10,8 +10,8 @@ def alpha(N: int) -> float:
 def get_ema(data: ndarray, N: int) -> float:
     data_cols = data[::-1] # inverting the order to get the first date at the beg
     data_cols = data_cols[:N+1]
-    pow = np.arange(N+1)
-    alphaOne = np.power(1 - alpha(N), pow)
+    pows = np.arange(N+1)
+    alphaOne = np.power(1 - alpha(N), pows)
     numerator = (alphaOne * data_cols).sum()
     denominator = alphaOne.sum()
     return numerator/denominator

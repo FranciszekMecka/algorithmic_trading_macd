@@ -1,5 +1,4 @@
 from collections import namedtuple
-from numpy import ndarray
 from rsi import rsi_date_val
 
 class TradeBot:
@@ -23,7 +22,7 @@ class TradeBot:
 
         return buy_intersects, sell_intersects
     
-    def buy_and_sell(self, buy: list, sell: list) -> float:
+    def buy_and_sell_macd(self, buy: list, sell: list) -> float:
         if buy[0].date > sell[0].date: # the sell intersection is first date wise
             sell = sell[1::]
         number_of_stocks: float = 0
@@ -34,19 +33,22 @@ class TradeBot:
 
         return self.funds
     
-    def react_to_rsi(self, rdv) -> float:
-        number_of_stocks: float = 0
-        last_rsi = -1
+    def buy_and_sell_rsi(self, rdv: list[rsi_date_val]) -> tuple:
+        number_of_stocks = 0
+        buy_points = []
+        sell_points = []
         for x in rdv:
-            if x.rsi < 30 and self.funds != 0:
+            if x.rsi <= 30 and number_of_stocks == 0:
                 number_of_stocks = self.funds / x.value
                 self.funds = 0
-                print("low:" , x.value)
-            elif x.rsi > 70 and number_of_stocks != 0:
-                self.funds += number_of_stocks * x.value
+                buy_points.append(x)
+            elif x.rsi >= 70 and number_of_stocks > 0:
+                self.funds = number_of_stocks * x.value
                 number_of_stocks = 0
-                print("high: ", x.value)
-            else:
-                pass # ?
+                sell_points.append(x)
 
-        return self.funds
+        # any remaining stocks
+        if number_of_stocks > 0:
+            self.funds += number_of_stocks * rdv[-1].value
+        return self.funds, buy_points, sell_points
+    
